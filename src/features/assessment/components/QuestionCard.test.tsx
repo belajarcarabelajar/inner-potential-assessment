@@ -7,10 +7,11 @@ import { Question } from '@/types/assessment';
 
 describe('QuestionCard', () => {
   const defaultQuestion: Question = {
-    id: 'q1',
-    scope: 'Intro',
-    prompt: 'Test prompt',
-    inputType: 'text' as any,
+    id: "q1",
+    scope: "scope 1",
+    prompt: "Sample prompt",
+    inputType: "tap-card" as any,
+    stage: "all",
   };
 
   beforeEach(() => {

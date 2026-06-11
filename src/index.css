@@ -1,34 +1,40 @@
 @import "tw-animate-css";
-@import "@fontsource-variable/geist";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/500.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   .theme {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif
+    --font-heading: 'Outfit', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
   }
   :root {
-    --background: #ffffff;
-    --foreground: #1f2937;
-    --card: #ffffff;
-    --card-foreground: #1f2937;
-    --popover: #ffffff;
-    --popover-foreground: #1f2937;
-    --primary: #245da8;
-    --primary-foreground: #ffffff;
-    --secondary: #f8fbff;
-    --secondary-foreground: #1f2937;
-    --muted: #f8fbff;
-    --muted-foreground: #64748b;
-    --accent: #eaf4ff;
-    --accent-foreground: #245da8;
-    --destructive: #b42318;
-    --destructive-foreground: #ffffff;
-    --border: #d7e3f3;
-    --input: #d7e3f3;
-    --ring: #245da8;
+    --background: #F9F8F6;
+    --foreground: #2B3A36;
+    --card: #FFFFFF;
+    --card-foreground: #2B3A36;
+    --popover: #FFFFFF;
+    --popover-foreground: #2B3A36;
+    --primary: #2A6F5C;
+    --primary-foreground: #FFFFFF;
+    --secondary: #E8A365;
+    --secondary-foreground: #FFFFFF;
+    --muted: #EAE6DF;
+    --muted-foreground: #738A82;
+    --accent: #F4A261;
+    --accent-foreground: #FFFFFF;
+    --destructive: #E76F51;
+    --destructive-foreground: #FFFFFF;
+    --border: #D1D9D6;
+    --input: #D1D9D6;
+    --ring: #2A6F5C;
     --chart-1: #245da8;
     --chart-2: #3b8f6e;
     --chart-3: #b7791f;
@@ -45,25 +51,25 @@
     --sidebar-ring: #245da8;
   }
   .dark {
-    --background: #0b1220;
-    --foreground: #e5e7eb;
-    --card: #142036;
-    --card-foreground: #e5e7eb;
-    --popover: #142036;
-    --popover-foreground: #e5e7eb;
-    --primary: #93c5fd;
-    --primary-foreground: #0b1220;
-    --secondary: #111a2e;
-    --secondary-foreground: #e5e7eb;
-    --muted: #111a2e;
-    --muted-foreground: #a8b3c7;
-    --accent: #1e3a5f;
-    --accent-foreground: #93c5fd;
-    --destructive: #fca5a5;
-    --destructive-foreground: #0b1220;
-    --border: #2e3b52;
-    --input: #2e3b52;
-    --ring: #93c5fd;
+    --background: #0F1715;
+    --foreground: #E2E8E6;
+    --card: #192421;
+    --card-foreground: #E2E8E6;
+    --popover: #192421;
+    --popover-foreground: #E2E8E6;
+    --primary: #459A82;
+    --primary-foreground: #0F1715;
+    --secondary: #E8A365;
+    --secondary-foreground: #0F1715;
+    --muted: #192421;
+    --muted-foreground: #8B9D96;
+    --accent: #F4A261;
+    --accent-foreground: #0F1715;
+    --destructive: #E76F51;
+    --destructive-foreground: #0F1715;
+    --border: #263631;
+    --input: #263631;
+    --ring: #459A82;
     --chart-1: #93c5fd;
     --chart-2: #86efac;
     --chart-3: #fcd34d;

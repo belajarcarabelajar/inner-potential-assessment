@@ -51,8 +51,8 @@ export function QuestionCard({ question, currentAnswer, onAnswer, onNext }: Prop
               <Button 
                 key={idx} 
                 variant={currentAnswer === opt ? "default" : "outline"}
-                className="justify-start h-14 text-lg text-left hover:border-primary transition"
-                onClick={() => { onAnswer(opt); setTimeout(() => onNext?.(), 150); }}
+                className={`justify-start h-16 text-lg text-left transition-all duration-300 rounded-2xl ${currentAnswer === opt ? 'shadow-md scale-[1.01]' : 'hover:border-primary hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.98]'}`}
+                onClick={() => { onAnswer(opt); setTimeout(() => onNext?.(), 300); }}
               >
                 {opt}
               </Button>
@@ -105,11 +105,11 @@ export function QuestionCard({ question, currentAnswer, onAnswer, onNext }: Prop
                 <Button 
                   key={val} 
                   variant={currentAnswer === val ? "default" : "outline"}
-                  className="justify-start h-auto py-4 text-left whitespace-normal hover:border-primary transition"
-                  onClick={() => { onAnswer(val); setTimeout(() => onNext?.(), 250); }}
+                  className={`justify-start h-auto py-5 text-left whitespace-normal transition-all duration-300 rounded-2xl ${currentAnswer === val ? 'shadow-md scale-[1.01]' : 'hover:border-primary hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.98]'}`}
+                  onClick={() => { onAnswer(val); setTimeout(() => onNext?.(), 300); }}
                 >
-                  <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 text-primary font-bold">{val}</span>
-                  {label}
+                  <span className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 font-bold transition-colors ${currentAnswer === val ? 'bg-background/20 text-primary-foreground' : 'bg-primary/10 text-primary'}`}>{val}</span>
+                  <span className="text-lg">{label}</span>
                 </Button>
               )
             })}
@@ -144,8 +144,8 @@ export function QuestionCard({ question, currentAnswer, onAnswer, onNext }: Prop
               <Button 
                 key={idx} 
                 variant={currentAnswer === opt ? "default" : "outline"}
-                className="h-auto min-h-[5rem] text-lg whitespace-normal p-4 flex items-center text-left hover:border-primary transition"
-                onClick={() => { onAnswer(opt); setTimeout(() => onNext?.(), 200); }}
+                className={`h-auto min-h-[6rem] text-lg whitespace-normal p-6 flex items-center text-left transition-all duration-300 rounded-3xl ${currentAnswer === opt ? 'shadow-md scale-[1.02]' : 'hover:border-primary hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.98]'}`}
+                onClick={() => { onAnswer(opt); setTimeout(() => onNext?.(), 300); }}
               >
                 {opt}
               </Button>
@@ -167,17 +167,17 @@ export function QuestionCard({ question, currentAnswer, onAnswer, onNext }: Prop
   };
 
   return (
-    <Card className="w-full max-w-3xl mx-auto shadow-lg border-border/60">
-      <CardHeader className="pb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="px-3 py-1 text-xs font-semibold tracking-wider uppercase bg-primary-soft text-primary rounded-full">
+    <Card className="w-full max-w-3xl mx-auto shadow-premium border-border/40 rounded-[2rem] animate-in fade-in-up duration-700 bg-card/95 backdrop-blur-sm">
+      <CardHeader className="pb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="px-4 py-1.5 text-xs font-bold tracking-wider uppercase bg-secondary/20 text-primary border border-secondary/30 rounded-full shadow-sm">
             {question.scope}
           </span>
         </div>
         {/* We expect Assessment.tsx to inject the correct prompt string into question.prompt before passing down */}
-        <CardTitle className="text-2xl md:text-3xl leading-relaxed text-foreground">{question.prompt}</CardTitle>
+        <CardTitle className="text-3xl md:text-4xl leading-snug text-foreground font-heading tracking-tight">{question.prompt}</CardTitle>
         {question.helperText && (
-          <CardDescription className="text-base mt-2">{question.helperText}</CardDescription>
+          <CardDescription className="text-lg mt-3 text-muted-foreground">{question.helperText}</CardDescription>
         )}
       </CardHeader>
       <CardContent>

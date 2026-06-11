@@ -8,7 +8,7 @@ afterEach(() => {
 });
 
 // Mock ResizeObserver for Radix UI components in jsdom
-global.ResizeObserver = class ResizeObserver {
+globalThis.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
   disconnect() {}

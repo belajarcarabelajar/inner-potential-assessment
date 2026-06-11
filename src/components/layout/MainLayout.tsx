@@ -8,39 +8,40 @@ export function MainLayout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background relative">
-      <header className="w-full p-4 md:p-6 flex items-center justify-between z-20 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0">
-        <Link to="/" className="font-bold text-lg text-primary hover:opacity-80 transition py-2">
+      <header className="w-full px-6 py-4 flex items-center justify-between z-20 border-b border-border/30 bg-background/80 backdrop-blur-md sticky top-0 shadow-sm">
+        <Link to="/" className="font-heading font-bold text-xl text-primary hover:opacity-80 transition-opacity py-2 flex items-center gap-2">
+          <span className="bg-primary text-primary-foreground w-8 h-8 rounded-lg flex items-center justify-center text-sm shadow-sm">IP</span>
           Inner Potential
         </Link>
         
         {/* Desktop Nav */}
-        <nav className="hidden sm:flex items-center gap-4">
-          <Link to="/assessment" className="px-3 py-2 text-sm font-medium hover:text-primary transition">
+        <nav className="hidden sm:flex items-center gap-2">
+          <Link to="/assessment" className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-primary hover:bg-secondary/20 rounded-full transition-all">
             Assessment
           </Link>
           <SignedIn>
-            <Link to="/dashboard" className="px-3 py-2 text-sm font-medium hover:text-primary transition">
+            <Link to="/dashboard" className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-primary hover:bg-secondary/20 rounded-full transition-all">
               Dashboard
             </Link>
-            <Link to="/profile" className="px-3 py-2 text-sm font-medium hover:text-primary transition mr-2">
+            <Link to="/profile" className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-primary hover:bg-secondary/20 rounded-full transition-all mr-2">
               Profil
             </Link>
             <UserButton />
           </SignedIn>
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="px-4 py-2 text-sm font-medium hover:text-primary transition">Sign In</button>
+              <button className="px-6 py-2.5 text-sm font-medium bg-primary text-primary-foreground rounded-full hover:shadow-md hover:-translate-y-0.5 transition-all">Sign In</button>
             </SignInButton>
           </SignedOut>
         </nav>
 
         {/* Mobile Nav Toggle */}
-        <div className="sm:hidden flex items-center gap-2">
+        <div className="sm:hidden flex items-center gap-3">
           <SignedIn>
             <UserButton />
           </SignedIn>
           <button 
-            className="p-2 -mr-2 text-foreground"
+            className="p-2 -mr-2 text-foreground/80 hover:text-foreground hover:bg-secondary/20 rounded-full transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Menu"
           >
@@ -51,21 +52,21 @@ export function MainLayout() {
 
       {/* Mobile Nav Drawer */}
       {isMobileMenuOpen && (
-        <div className="sm:hidden absolute top-[73px] left-0 right-0 bg-background border-b border-border shadow-lg z-10 flex flex-col px-4 py-2 gap-2 animate-in slide-in-from-top-2">
-          <Link to="/assessment" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-sm font-medium rounded-lg hover:bg-muted transition">
+        <div className="sm:hidden absolute top-[73px] left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border shadow-premium z-10 flex flex-col px-4 py-4 gap-2 animate-in slide-in-from-top-4 duration-300">
+          <Link to="/assessment" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-sm font-medium rounded-xl hover:bg-secondary/20 hover:text-primary transition-colors">
             Assessment
           </Link>
           <SignedIn>
-            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-sm font-medium rounded-lg hover:bg-muted transition">
+            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-sm font-medium rounded-xl hover:bg-secondary/20 hover:text-primary transition-colors">
               Dashboard
             </Link>
-            <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-sm font-medium rounded-lg hover:bg-muted transition">
+            <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-sm font-medium rounded-xl hover:bg-secondary/20 hover:text-primary transition-colors">
               Profil
             </Link>
           </SignedIn>
           <SignedOut>
             <SignInButton mode="modal">
-              <button onClick={() => setIsMobileMenuOpen(false)} className="w-full text-left px-4 py-3 text-sm font-medium rounded-lg hover:bg-muted transition">
+              <button onClick={() => setIsMobileMenuOpen(false)} className="w-full text-center mt-2 px-4 py-3 text-sm font-medium bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-opacity">
                 Sign In
               </button>
             </SignInButton>

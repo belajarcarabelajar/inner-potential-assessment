@@ -15,11 +15,11 @@ vi.mock('@clerk/clerk-react', () => ({
 }));
 
 describe('Profile', () => {
-  let originalFetch: typeof global.fetch;
+  let originalFetch: typeof globalThis.fetch;
 
   beforeEach(() => {
-    originalFetch = global.fetch;
-    global.fetch = vi.fn().mockResolvedValue({
+    originalFetch = globalThis.fetch;
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({
         reports: [
@@ -37,7 +37,7 @@ describe('Profile', () => {
   });
 
   afterEach(() => {
-    global.fetch = originalFetch;
+    globalThis.fetch = originalFetch;
     vi.clearAllMocks();
   });
 
@@ -56,6 +56,6 @@ describe('Profile', () => {
       expect(screen.getByText(/Pola Dominan: Pattern 1/i)).toBeInTheDocument();
     });
     
-    expect(global.fetch).toHaveBeenCalled();
+    expect(globalThis.fetch).toHaveBeenCalled();
   });
 });
