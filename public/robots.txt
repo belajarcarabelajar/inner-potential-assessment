@@ -3,4 +3,4 @@ Allow: /
 Disallow: /dashboard
 Disallow: /profile
 
-Sitemap: https://jatimetri.com/sitemap.xml
+Sitemap: https://jatimetri.belajarcarabelajar.com/sitemap.xml
