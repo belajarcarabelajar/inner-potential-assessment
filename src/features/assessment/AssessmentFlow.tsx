@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { v1Bank } from "@/data/questions/v1-bank";
@@ -11,6 +11,9 @@ export function AssessmentFlow() {
   const { currentSlideIndex, setSlideIndex, answers, setAnswer, setUserName, setStage, resetAssessment } = useAssessmentStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const questions = v1Bank;
   const progress = ((currentSlideIndex + 1) / questions.length) * 100;
@@ -95,6 +98,33 @@ export function AssessmentFlow() {
     return ans !== undefined;
   };
 
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientY);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientY);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isUpSwipe = distance > minSwipeDistance;
+    const isDownSwipe = distance < -minSwipeDistance;
+
+    if (isUpSwipe) {
+      if (isAnswered() && currentSlideIndex < questions.length - 1) {
+        handleNext();
+      }
+    }
+    if (isDownSwipe) {
+      handlePrev();
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-surface relative overflow-hidden">
       {/* Top Bar with Progress */}
@@ -150,51 +180,56 @@ export function AssessmentFlow() {
         </div>
       </div>
 
-      {/* Mobile View (Snap Scroll) */}
+      {/* Mobile View (Strict Swipe) */}
       <div 
-        ref={containerRef}
-        className="md:hidden flex-1 overflow-y-auto snap-y snap-mandatory scroll-smooth pb-32"
+        className="md:hidden flex-1 overflow-hidden relative"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
-        {questions.map((q, index) => {
-          const mDynamicQ = { ...q };
-          if (q.prompts) mDynamicQ.prompt = q.prompts[activeStage];
-          if (q.id === "Q-ID-03") {
-            if (activeStage === "child") mDynamicQ.options = q.childOptions;
-            if (activeStage === "teen") mDynamicQ.options = q.teenOptions;
-            if (activeStage === "adult") mDynamicQ.options = q.adultOptions;
-          }
-          return (
-            <div 
-              key={q.id} 
-              id={`q-${index}`} 
-              className="min-h-[80vh] flex items-center justify-center p-4 snap-center"
-            >
-              <QuestionCard 
-                question={mDynamicQ} 
-                currentAnswer={answers[q.id]} 
-                onAnswer={(val) => {
-                  handleAnswer(val);
-                }} 
-                onNext={() => {
-                  const nextCard = document.getElementById(`q-${index + 1}`);
-                  if (nextCard) {
-                    nextCard.scrollIntoView({ behavior: 'smooth' });
-                    setSlideIndex(index + 1);
-                  }
-                }}
-              />
-            </div>
-          );
-        })}
-        {/* End Screen for Mobile */}
-        <div id={`q-${questions.length}`} className="min-h-[80vh] flex flex-col items-center justify-center p-4 snap-center space-y-6">
-           <div className="bg-background p-8 rounded-2xl shadow-lg border border-border/60 text-center max-w-sm w-full">
-             <h3 className="text-3xl font-bold text-primary mb-2">Selesai!</h3>
-             <p className="text-muted-foreground mb-8">Anda telah menjawab semua pertanyaan.</p>
-             <Button size="lg" className="w-full bg-success hover:bg-success/90" onClick={handleFinish}>
-               Lihat Laporan Hasil
-             </Button>
-           </div>
+        <div 
+          className="flex flex-col h-full w-full transition-transform duration-500 ease-out"
+          style={{ transform: `translateY(-${currentSlideIndex * 100}%)` }}
+        >
+          {questions.map((q, index) => {
+            const mDynamicQ = { ...q };
+            if (q.prompts) mDynamicQ.prompt = q.prompts[activeStage];
+            if (q.id === "Q-ID-03") {
+              if (activeStage === "child") mDynamicQ.options = q.childOptions;
+              if (activeStage === "teen") mDynamicQ.options = q.teenOptions;
+              if (activeStage === "adult") mDynamicQ.options = q.adultOptions;
+            }
+            return (
+              <div 
+                key={q.id} 
+                className="h-full w-full flex-shrink-0 flex items-center justify-center p-4 overflow-y-auto"
+              >
+                <div className="w-full my-auto py-8">
+                  <QuestionCard 
+                    question={mDynamicQ} 
+                    currentAnswer={answers[q.id]} 
+                    onAnswer={(val) => {
+                      handleAnswer(val);
+                    }} 
+                    onNext={() => {
+                      if (index === questions.length - 1) {
+                        handleFinish();
+                      } else {
+                        setSlideIndex(index + 1);
+                      }
+                    }}
+                  />
+                  {index === questions.length - 1 && isAnswered() && (
+                    <div className="mt-8 flex justify-center w-full max-w-3xl mx-auto">
+                      <Button size="lg" className="w-full bg-success hover:bg-success/90 shadow-lg text-lg h-14" onClick={handleFinish}>
+                        Selesai, Lihat Laporan Hasil
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
