@@ -127,6 +127,7 @@ export function AssessmentFlow() {
 
   return (
     <div className="flex flex-col h-screen bg-surface relative overflow-hidden">
+      <h1 className="sr-only">Assessment Kepribadian Jatimetri</h1>
       {/* Top Bar with Progress */}
       <div className="w-full bg-background p-4 shadow-sm z-10 border-b border-border/50">
         <div className="flex items-center justify-between mb-3 max-w-5xl mx-auto">

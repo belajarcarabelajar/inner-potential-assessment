@@ -24,7 +24,7 @@ export const ReportPDF = forwardRef<HTMLDivElement, ReportPDFProps>(({ result, u
     >
       {/* Page 1: Cover & Disclaimer */}
       <div className="pdf-page h-[1123px] flex flex-col items-center justify-center bg-primary/5 border-b p-12 text-center relative overflow-hidden">
-        <h1 className="text-6xl font-bold text-primary mb-4 tracking-tight">Inner Potential</h1>
+        <h1 className="text-6xl font-bold text-primary mb-4 tracking-tight">Jatimetri</h1>
         <h2 className="text-3xl font-semibold mb-8 text-slate-700">Laporan Assessment Pribadi</h2>
         <div className="mt-20 space-y-2">
           <p className="text-xl text-slate-500">Disiapkan untuk:</p>
@@ -122,7 +122,7 @@ export const ReportPDF = forwardRef<HTMLDivElement, ReportPDFProps>(({ result, u
           </div>
         </div>
         <div className="text-center text-slate-400 border-t pt-8 mt-12 mb-12">
-          <p className="text-lg font-medium text-slate-500 mb-2">Inner Potential Assessment</p>
+          <p className="text-lg font-medium text-slate-500 mb-2">Jatimetri Assessment</p>
           <p>Dokumen Refleksi Awal - Dibuat secara otomatis oleh sistem</p>
           <p className="mt-4">© {new Date().getFullYear()} Hak Cipta Dilindungi</p>
         </div>

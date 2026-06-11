@@ -65,7 +65,7 @@ describe('Dashboard', () => {
     
     // Check main elements - waiting for loading to finish
     await waitFor(() => {
-      expect(screen.getByText('Laporan Inner Potential')).toBeInTheDocument();
+      expect(screen.getByText('Laporan Jatimetri')).toBeInTheDocument();
     }, { timeout: 3000 });
     
     expect(screen.getAllByText('Test Pattern')[0]).toBeInTheDocument();

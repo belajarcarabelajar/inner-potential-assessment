@@ -27,6 +27,15 @@ export default function Dashboard() {
   const pdfContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Dashboard - Jatimetri";
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex';
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
+
   // Check if we're viewing a historical report from profile page
   const [historicalReport, setHistoricalReport] = useState<HistoricalReport | null>(null);
 
@@ -153,7 +162,7 @@ export default function Dashboard() {
         
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-background p-6 rounded-2xl shadow-sm border border-border">
           <div>
-            <h1 className="text-3xl font-bold text-primary">Laporan Inner Potential</h1>
+            <h1 className="text-3xl font-bold text-primary">Laporan Jatimetri</h1>
             <p className="text-muted-foreground mt-1 capitalize">
               {historicalReport
                 ? `Kategori: ${historicalReport.stage}${historicalReport.createdAt ? ` · ${new Date(Number(historicalReport.createdAt) * 1000).toLocaleDateString('id-ID')}` : ''}`

@@ -57,7 +57,7 @@ app.use('/api/*', async (c, next) => {
 });
 
 app.get('/', (c) => {
-  return c.text('Inner Potential Assessment API is running');
+  return c.text('Jatimetri Assessment API is running');
 });
 
 // Create Worker API endpoint: POST /api/save-attempt

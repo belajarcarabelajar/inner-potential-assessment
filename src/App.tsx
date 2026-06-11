@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
 import Assessment from "./features/assessment/Assessment";
@@ -7,6 +8,10 @@ import { MainLayout } from "./components/layout/MainLayout";
 import NotFound from "./components/NotFound";
 
 function Home() {
+  useEffect(() => {
+    document.title = "Jatimetri - Beranda";
+  }, []);
+
   return (
     <div className="flex-1 flex items-center justify-center bg-background relative py-12 overflow-hidden">
       {/* Organic Background Blobs */}
@@ -19,7 +24,7 @@ function Home() {
           ✨ Jelajahi Dirimu
         </div>
         <h1 className="text-5xl md:text-7xl font-bold text-foreground font-heading tracking-tight leading-tight">
-          Inner Potential <br/> <span className="text-primary">Assessment</span>
+          Jatimetri <br/> <span className="text-primary">Assessment</span>
         </h1>
         <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto font-sans leading-relaxed">
           Temukan kekuatan sejatimu dan arah pertumbuhanmu melalui pendekatan psikologi yang mendalam.

@@ -43,7 +43,7 @@ export const useAssessmentStore = create<AssessmentState>()(
       resetAssessment: () => set({ stage: null, userName: "", answers: {}, currentSlideIndex: 0, isCompleted: false }),
     }),
     {
-      name: 'inner-potential-assessment-v1-storage',
+      name: 'jatimetri-v1-storage',
       storage: createJSONStorage(() => localStorage),
     }
   )

@@ -11,7 +11,7 @@ export function MainLayout() {
       <header className="w-full px-6 py-4 flex items-center justify-between z-20 border-b border-border/30 bg-background/80 backdrop-blur-md sticky top-0 shadow-sm">
         <Link to="/" className="font-heading font-bold text-xl text-primary hover:opacity-80 transition-opacity py-2 flex items-center gap-2">
           <span className="bg-primary text-primary-foreground w-8 h-8 rounded-lg flex items-center justify-center text-sm shadow-sm">IP</span>
-          Inner Potential
+          Jatimetri
         </Link>
         
         {/* Desktop Nav */}

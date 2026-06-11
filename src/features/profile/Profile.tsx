@@ -18,6 +18,16 @@ export default function Profile() {
   const { isSignedIn, getToken } = useAuth();
   const { user } = useUser();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Profil - Jatimetri";
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex';
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
+
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -92,7 +102,7 @@ export default function Profile() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center gap-4 border p-4 rounded-lg">
-              <img src={user?.imageUrl} alt="Profile" loading="lazy" className="w-12 h-12 rounded-full aspect-square" />
+              <img src={user?.imageUrl} alt={`Foto profil pengguna ${user?.firstName || ''}`} loading="lazy" className="w-12 h-12 rounded-full aspect-square" />
               <div>
                 <p className="font-semibold">{user?.fullName || "Pengguna"}</p>
                 <p className="text-sm text-muted-foreground">{user?.primaryEmailAddress?.emailAddress}</p>

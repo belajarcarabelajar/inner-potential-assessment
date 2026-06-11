@@ -27,6 +27,6 @@ export NODE_TLS_REJECT_UNAUTHORIZED=0
 echo "📦 Deploying dist/ to Cloudflare Pages..."
 # Use YES to automatically create the project if it doesn't exist? Actually wrangler pages deploy doesn't have --yes.
 
-"${WRANGLER_CMD[@]}" pages deploy dist --project-name inner-potential-assessment
+"${WRANGLER_CMD[@]}" pages deploy dist --project-name jatimetri
 
 echo "✅ Website deployment completed successfully!"
