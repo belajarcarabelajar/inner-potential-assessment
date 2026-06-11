@@ -92,7 +92,7 @@ export default function Profile() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center gap-4 border p-4 rounded-lg">
-              <img src={user?.imageUrl} alt="Profile" className="w-12 h-12 rounded-full" />
+              <img src={user?.imageUrl} alt="Profile" loading="lazy" className="w-12 h-12 rounded-full aspect-square" />
               <div>
                 <p className="font-semibold">{user?.fullName || "Pengguna"}</p>
                 <p className="text-sm text-muted-foreground">{user?.primaryEmailAddress?.emailAddress}</p>

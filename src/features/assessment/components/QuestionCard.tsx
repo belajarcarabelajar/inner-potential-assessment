@@ -34,6 +34,9 @@ export function QuestionCard({ question, currentAnswer, onAnswer, onNext }: Prop
               value={typeof currentAnswer === 'string' ? currentAnswer : ''}
               onChange={(e) => onAnswer(e.target.value)}
               className="h-14 text-lg"
+              autoComplete="name"
+              autoCorrect="off"
+              spellCheck={false}
             />
             {currentAnswer && <Button onClick={onNext} size="lg" className="mt-4">Lanjut</Button>}
           </div>
