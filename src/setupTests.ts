@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
-import { afterEach } from 'vitest';
-
+import { afterEach, vi } from 'vitest';
+import idTranslations from './locales/id/translation.json';
 // Automatically cleanup React testing library trees after each test
 afterEach(() => {
   cleanup();
@@ -14,3 +14,19 @@ globalThis.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 
+// Global mock for react-i18next
+vi.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (key: string) => (idTranslations as any)[key] || key,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+        language: 'id',
+      },
+    };
+  },
+  initReactI18next: {
+    type: '3rdParty',
+    init: () => {},
+  }
+}));
