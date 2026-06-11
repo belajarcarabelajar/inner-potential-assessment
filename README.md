@@ -1,73 +1,111 @@
-# React + TypeScript + Vite
+# Jatimetri Assessment Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Jatimetri is a psychological assessment application designed to help users discover their true potential through an interactive assessment flow. It provides personal profiling, detailed reporting, and visual data representations using a modern React frontend and a serverless API backend.
 
-Currently, two official plugins are available:
+## Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The project is structured as a monorepo containing two primary layers:
 
-## React Compiler
+- **Frontend (`/src`)**: A React Single Page Application built with Vite, TypeScript, TailwindCSS, and Shadcn UI. State is managed via Zustand, authentication is securely handled by Clerk, and reporting includes PDF generation and radar charts.
+- **Backend (`/worker`)**: A Cloudflare Worker built with Hono and Drizzle ORM. It provides a secure API to save attempts, retrieve historical reports, and upload generated PDFs.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Directory Structure
 
-## Expanding the ESLint configuration
+- `src/features/` - Core application feature modules (`assessment`, `dashboard`, `profile`, `pdf`).
+- `src/components/` - Shared UI and layout components.
+- `src/routes/` - Application routing definitions.
+- `worker/src/` - Backend API entry point (`index.ts`) and database schema (`db/`).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [Node.js](https://nodejs.org/) (v18 or newer recommended)
+- `npm` package manager
+- A [Clerk](https://clerk.com/) Account (for authentication)
+- A [Cloudflare](https://dash.cloudflare.com/) Account (for Workers, D1 Database, and R2 Storage)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Environment Variables
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Configuration is required for both the frontend and the backend.
+
+### Frontend (`.env`)
+Create a `.env` file in the root directory for local development:
+```env
+# Your Clerk Publishable Key
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+
+# In production (.env.production), define the API URL:
+# VITE_API_URL=https://jatimetri-api.<your-subdomain>.workers.dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Backend (`worker/.dev.vars`)
+Create a `.dev.vars` file in the `worker/` directory for local backend secrets:
+```env
+# Your Clerk Secret Key
+CLERK_SECRET_KEY=sk_test_...
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+*Note: The backend also relies on `CLERK_PUBLISHABLE_KEY` configured within the `[vars]` block inside `wrangler.toml`.*
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation & Setup
+
+1. **Install Frontend Dependencies**
+   From the root of the project:
+   ```bash
+   npm install
+   ```
+
+2. **Install Backend Dependencies**
+   Navigate to the worker directory and install its packages:
+   ```bash
+   cd worker
+   npm install
+   ```
+
+3. **Configure Cloudflare Services**
+   The backend relies on Cloudflare D1 and R2. Ensure `wrangler.toml` is updated with your specific IDs and bindings:
+   - **D1 Database Binding:** `DB` (Database Name: `inner_potential_db`)
+   - **R2 Bucket Binding:** `REPORTS_BUCKET` (Bucket Name: `jatimetri-reports`)
+
+## Development
+
+You need to run both the frontend and the backend simultaneously for full local functionality.
+
+**Start the Backend (API)**
+Open a terminal, navigate to the worker directory, and start the local Cloudflare dev server:
+```bash
+cd worker
+npm run dev
+```
+
+**Start the Frontend**
+Open a separate terminal in the root directory and start Vite:
+```bash
+npm run dev
+```
+
+## Testing
+
+The frontend uses Vitest for testing. Run the following commands from the root directory:
+
+- Run all tests: `npm run test`
+- Run tests in watch mode: `npm run test:watch`
+- Generate test coverage: `npm run test:coverage`
+
+## Build & Deployment
+
+### Frontend
+To build the frontend for production:
+```bash
+npm run build
+```
+To preview the production build locally:
+```bash
+npm run preview
+```
+
+### Backend (API)
+To deploy the Cloudflare worker to your production environment:
+```bash
+cd worker
+npm run deploy
 ```
