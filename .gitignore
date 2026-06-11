@@ -31,3 +31,4 @@ dist-ssr
 
 # Cloudflare Wrangler
 .wrangler/
+coverage/
