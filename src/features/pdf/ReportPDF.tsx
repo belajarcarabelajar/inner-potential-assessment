@@ -62,7 +62,7 @@ export const ReportPDF = forwardRef<HTMLDivElement, ReportPDFProps>(({ result, u
       {/* Page 3: Strengths & Weaknesses */}
       <div className="pdf-page h-[1123px] p-12 bg-white flex flex-col gap-8 relative overflow-hidden">
         <h2 className="text-4xl font-bold text-primary border-b pb-4">Indikasi Potensi & Tantangan</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        <div className="grid grid-cols-2 gap-8 mt-8">
            {result.tendencies.map((t: any, idx: number) => (
              <div key={idx} className="border border-slate-200 p-8 rounded-xl bg-slate-50 shadow-sm flex flex-col">
                <h3 className="text-2xl font-bold capitalize mb-6 text-slate-800 border-b pb-4">{t.label}</h3>

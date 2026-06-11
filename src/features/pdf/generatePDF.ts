@@ -22,6 +22,8 @@ export async function generatePDF(elementId: string, filename: string) {
       scale: 2, // Higher quality
       useCORS: true,
       logging: false,
+      scrollY: -window.scrollY,
+      windowWidth: 1024,
     });
     
     const imgData = canvas.toDataURL("image/jpeg", 0.98);
