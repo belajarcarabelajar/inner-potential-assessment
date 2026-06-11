@@ -6,6 +6,16 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 CLERK_PUBLISHABLE_KEY = "pk_test_Y29tcGxldGUta2l0ZS05MC5jbGVyay5hY2NvdW50cy5kZXYk"
 
+[env.production]
+vars = { CLERK_PUBLISHABLE_KEY = "pk_live_your_production_publishable_key_here" }
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "inner_potential_db"
+database_id = "dd1e85a5-07ad-43ca-8ff5-c65621e690ac"
+[[env.production.r2_buckets]]
+binding = "REPORTS_BUCKET"
+bucket_name = "jatimetri-reports"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "inner_potential_db"

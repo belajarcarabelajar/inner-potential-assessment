@@ -31,8 +31,8 @@ describe('QuestionCard', () => {
         onAnswer={vi.fn()}
       />
     );
-    expect(screen.getByText('Intro')).toBeInTheDocument();
-    expect(screen.getByText('Test prompt')).toBeInTheDocument();
+    expect(screen.getByText('scope 1')).toBeInTheDocument();
+    expect(screen.getByText('Sample prompt')).toBeInTheDocument();
     expect(screen.getByText('Helper text here')).toBeInTheDocument();
   });
 
@@ -85,7 +85,7 @@ describe('QuestionCard', () => {
       expect(handleNext).not.toHaveBeenCalled();
 
       act(() => {
-        vi.advanceTimersByTime(150);
+        vi.advanceTimersByTime(300);
       });
       expect(handleNext).toHaveBeenCalledTimes(1);
     });
@@ -149,7 +149,7 @@ describe('QuestionCard', () => {
       expect(handleAnswer).toHaveBeenCalledWith(1);
       
       act(() => {
-        vi.advanceTimersByTime(250);
+        vi.advanceTimersByTime(300);
       });
       expect(handleNext).toHaveBeenCalledTimes(1);
     });
@@ -193,7 +193,7 @@ describe('QuestionCard', () => {
       expect(handleAnswer).toHaveBeenCalledWith('Option 1');
 
       act(() => {
-        vi.advanceTimersByTime(200);
+        vi.advanceTimersByTime(300);
       });
       expect(handleNext).toHaveBeenCalledTimes(1);
     });
