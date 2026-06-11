@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth, useUser } from "@clerk/clerk-react";
+import { useTranslation } from "react-i18next";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Loader2, AlertCircle, Settings, Trash2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ type Report = {
 };
 
 export default function Profile() {
+  const { t, i18n } = useTranslation();
   const { isSignedIn, getToken } = useAuth();
   const { user } = useUser();
   const navigate = useNavigate();
@@ -136,7 +138,7 @@ export default function Profile() {
                   const radarData = typeof report.radar_data === 'string' ? JSON.parse(report.radar_data || '[]') : (report.radar_data || []);
                   const tendencies = typeof report.tendencies === 'string' ? JSON.parse(report.tendencies || '[]') : (report.tendencies || []);
                   const dateLabel = report.created_at
-                    ? new Date(Number(report.created_at) * 1000).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })
+                    ? new Date(Number(report.created_at) * 1000).toLocaleDateString(i18n.language, { year: 'numeric', month: 'long', day: 'numeric' })
                     : '-';
 
                   const handleViewResult = () => {

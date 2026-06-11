@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Loader2, Download, Save, ArrowLeft } from "lucide-react";
 import { useAuth, SignInButton } from "@clerk/clerk-react";
+import { useTranslation } from "react-i18next";
 import { ReportPDF } from "../pdf/ReportPDF";
 import { generatePDF } from "../pdf/generatePDF";
 
@@ -20,6 +21,7 @@ type HistoricalReport = {
 };
 
 export default function Dashboard() {
+  const { t, i18n } = useTranslation();
   const { answers, stage, userName } = useAssessmentStore();
   const [loading, setLoading] = useState(true);
   const [generatingPdf, setGeneratingPdf] = useState(false);
@@ -89,11 +91,11 @@ export default function Dashboard() {
          navigate('/profile');
       } else {
          const errData = await res.text();
-         alert(`Gagal menyimpan laporan. Server Error: ${res.status} - ${errData}`);
+         alert(`${t('fail_save')} Server Error: ${res.status} - ${errData}`);
       }
     } catch (e: any) {
       console.error(e);
-      alert(`Terjadi kesalahan jaringan: ${e.message}`);
+      alert(`${t('network_error')} ${e.message}`);
     }
   };
 
@@ -140,7 +142,7 @@ export default function Dashboard() {
       }
     } catch (e) {
       console.error(e);
-      alert("Gagal membuat PDF.");
+      alert(t('fail_pdf'));
     } finally {
       setGeneratingPdf(false);
     }
@@ -150,8 +152,8 @@ export default function Dashboard() {
     return (
       <div className="flex-1 flex flex-col items-center justify-center bg-background">
         <Loader2 className="h-12 w-12 animate-spin text-primary mb-6" />
-        <h2 className="text-2xl font-bold text-foreground">Menganalisis Pola dan Potensi...</h2>
-        <p className="text-muted-foreground mt-2 text-lg">Mengevaluasi bukti lintas-scope</p>
+        <h2 className="text-2xl font-bold text-foreground">{t('analyzing')}</h2>
+        <p className="text-muted-foreground mt-2 text-lg">{t('evaluating_evidence')}</p>
       </div>
     );
   }
@@ -162,11 +164,11 @@ export default function Dashboard() {
         
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-background p-6 rounded-2xl shadow-sm border border-border">
           <div>
-            <h1 className="text-3xl font-bold text-primary">Laporan Jatimetri</h1>
+            <h1 className="text-3xl font-bold text-primary">{t('report_title')}</h1>
             <p className="text-muted-foreground mt-1 capitalize">
               {historicalReport
-                ? `Kategori: ${historicalReport.stage}${historicalReport.createdAt ? ` · ${new Date(Number(historicalReport.createdAt) * 1000).toLocaleDateString('id-ID')}` : ''}`
-                : `Disiapkan untuk: ${userName || 'Pengguna'}`
+                ? `${t('category')}: ${historicalReport.stage}${historicalReport.createdAt ? ` · ${new Date(Number(historicalReport.createdAt) * 1000).toLocaleDateString(i18n.language)}` : ''}`
+                : `${t('prepared_for')}: ${userName || 'Pengguna'}`
               }
             </p>
           </div>
@@ -174,19 +176,19 @@ export default function Dashboard() {
              {!historicalReport && (
                isSignedIn ? (
                  <Button variant="outline" className="flex-1 md:flex-none" onClick={handleSave}>
-                   <Save className="w-4 h-4 mr-2" /> Simpan Laporan
+                   <Save className="w-4 h-4 mr-2" /> {t('save_report')}
                  </Button>
                ) : (
                  <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
                    <Button variant="outline" className="flex-1 md:flex-none text-primary border-primary hover:bg-primary-soft">
-                     <Save className="w-4 h-4 mr-2" /> Login & Simpan
+                     <Save className="w-4 h-4 mr-2" /> {t('login_save')}
                    </Button>
                  </SignInButton>
                )
              )}
              <Button className="flex-1 md:flex-none" onClick={handleDownloadPDF} disabled={generatingPdf}>
                {generatingPdf ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />} 
-               Unduh PDF
+               {t('download_pdf')}
              </Button>
           </div>
         </header>
@@ -194,21 +196,21 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="md:col-span-1 shadow-md border-border/60 flex flex-col justify-center">
             <CardHeader className="text-center pb-2">
-              <CardTitle className="text-lg text-muted-foreground uppercase tracking-wider">Indikasi Dominan</CardTitle>
+              <CardTitle className="text-lg text-muted-foreground uppercase tracking-wider">{t('dominant_indication')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center py-4">
                 <div className="text-5xl mb-6">🌟</div>
                 <h3 className="text-2xl font-bold text-foreground mb-3">{result.dominancePattern}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">Pola ini tampaknya mendominasi kecenderungan energi dan pengambilan keputusan Anda berdasarkan bukti gabungan.</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{t('dominant_desc')}</p>
               </div>
             </CardContent>
           </Card>
 
           <Card className="md:col-span-2 shadow-md border-border/60">
             <CardHeader>
-              <CardTitle>Peta Distribusi Potensi</CardTitle>
-              <CardDescription>Visualisasi kecenderungan Anda di berbagai pendekatan.</CardDescription>
+              <CardTitle>{t('potential_map')}</CardTitle>
+              <CardDescription>{t('potential_map_desc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <RadarChartPlot data={result.radarData} />
@@ -218,18 +220,18 @@ export default function Dashboard() {
 
         <Card className="shadow-md border-border/60">
           <CardHeader>
-            <CardTitle>Indikasi Potensi Utama (Tendencies)</CardTitle>
-            <CardDescription>Pola kekuatan yang terdeteksi dengan frekuensi paling konsisten.</CardDescription>
+            <CardTitle>{t('main_tendencies')}</CardTitle>
+            <CardDescription>{t('main_tendencies_desc')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {result.tendencies.map(t => (
-              <div key={t.id} className="grid md:grid-cols-2 gap-6 items-center bg-surface p-6 rounded-xl border border-border/50">
+            {result.tendencies.map(tendency => (
+              <div key={tendency.id} className="grid md:grid-cols-2 gap-6 items-center bg-surface p-6 rounded-xl border border-border/50">
                 <div>
-                   <h4 className="font-bold text-xl text-primary mb-2">{t.label}</h4>
-                   <p className="text-muted-foreground text-sm leading-relaxed">{t.description}</p>
+                   <h4 className="font-bold text-xl text-primary mb-2">{tendency.label}</h4>
+                   <p className="text-muted-foreground text-sm leading-relaxed">{tendency.description}</p>
                 </div>
                 <div className="w-full">
-                   <SpectrumSlider label="Kekuatan Bukti (Evidence)" quality={t.quality} />
+                   <SpectrumSlider label={t('evidence_strength')} quality={tendency.quality} />
                 </div>
               </div>
             ))}
@@ -238,13 +240,11 @@ export default function Dashboard() {
 
         <Card className="shadow-md border-border/60 bg-amber-50 border-amber-200">
           <CardHeader>
-            <CardTitle className="text-amber-800">⚠ Disclaimer Penting</CardTitle>
+            <CardTitle className="text-amber-800">{t('disclaimer_title')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-amber-700 leading-relaxed">
-              Hasil ini adalah alat refleksi awal, bukan diagnosis psikologis, penilaian baku, atau 
-              vonis mutlak mengenai kepribadian Anda. Laporan ini mengukur kecenderungan berdasarkan respons 
-              yang diberikan dan dirancang sebagai titik tolak untuk mengeksplorasi potensi Anda lebih lanjut.
+              {t('disclaimer_desc')}
             </p>
           </CardContent>
         </Card>

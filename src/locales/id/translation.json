@@ -1,0 +1,23 @@
+{
+  "category": "Kategori",
+  "date": "Tanggal",
+  "analyzing": "Menganalisis Pola dan Potensi...",
+  "evaluating_evidence": "Mengevaluasi bukti lintas-scope",
+  "report_title": "Laporan Jatimetri",
+  "prepared_for": "Disiapkan untuk",
+  "save_report": "Simpan Laporan",
+  "login_save": "Login & Simpan",
+  "download_pdf": "Unduh PDF",
+  "dominant_indication": "Indikasi Dominan",
+  "dominant_desc": "Pola ini tampaknya mendominasi kecenderungan energi dan pengambilan keputusan Anda berdasarkan bukti gabungan.",
+  "potential_map": "Peta Distribusi Potensi",
+  "potential_map_desc": "Visualisasi kecenderungan Anda di berbagai pendekatan.",
+  "main_tendencies": "Indikasi Potensi Utama (Tendencies)",
+  "main_tendencies_desc": "Pola kekuatan yang terdeteksi dengan frekuensi paling konsisten.",
+  "evidence_strength": "Kekuatan Bukti (Evidence)",
+  "disclaimer_title": "⚠ Disclaimer Penting",
+  "disclaimer_desc": "Hasil ini adalah alat refleksi awal, bukan diagnosis psikologis, penilaian baku, atau vonis mutlak mengenai kepribadian Anda. Laporan ini mengukur kecenderungan berdasarkan respons yang diberikan dan dirancang sebagai titik tolak untuk mengeksplorasi potensi Anda lebih lanjut.",
+  "fail_pdf": "Gagal membuat PDF.",
+  "fail_save": "Gagal menyimpan laporan.",
+  "network_error": "Terjadi kesalahan jaringan:"
+}

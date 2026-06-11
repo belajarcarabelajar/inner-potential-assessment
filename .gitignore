@@ -32,3 +32,6 @@ dist-ssr
 # Cloudflare Wrangler
 .wrangler/
 coverage/
+
+# Local Config
+GEMINI.md

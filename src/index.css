@@ -25,12 +25,12 @@
     --primary: #2A6F5C;
     --primary-foreground: #FFFFFF;
     --secondary: #E8A365;
-    --secondary-foreground: #FFFFFF;
+    --secondary-foreground: #2B3A36;
     --muted: #EAE6DF;
-    --muted-foreground: #738A82;
+    --muted-foreground: #4A5F57;
     --accent: #F4A261;
-    --accent-foreground: #FFFFFF;
-    --destructive: #E76F51;
+    --accent-foreground: #2B3A36;
+    --destructive: #C0392B;
     --destructive-foreground: #FFFFFF;
     --border: #D1D9D6;
     --input: #D1D9D6;

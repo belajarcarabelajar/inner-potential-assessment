@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 import { RadarChartPlot } from "../dashboard/components/RadarChartPlot";
 
 type ReportPDFProps = {
@@ -7,6 +8,7 @@ type ReportPDFProps = {
 };
 
 export const ReportPDF = forwardRef<HTMLDivElement, ReportPDFProps>(({ result, userName }, ref) => {
+  const { i18n } = useTranslation();
   if (!result) return null;
 
   return (
@@ -29,7 +31,7 @@ export const ReportPDF = forwardRef<HTMLDivElement, ReportPDFProps>(({ result, u
         <div className="mt-20 space-y-2">
           <p className="text-xl text-slate-500">Disiapkan untuk:</p>
           <p className="text-4xl font-bold text-slate-800">{userName}</p>
-          <p className="text-lg text-slate-500 mt-4">Tanggal: {new Date().toLocaleDateString("id-ID")}</p>
+          <p className="text-lg text-slate-500 mt-4">Tanggal: {new Date().toLocaleDateString(i18n.language)}</p>
         </div>
         
         <div className="mt-32 max-w-2xl bg-amber-50 p-6 rounded-xl border border-amber-200">

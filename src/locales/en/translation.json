@@ -1,0 +1,23 @@
+{
+  "category": "Category",
+  "date": "Date",
+  "analyzing": "Analyzing Patterns and Potential...",
+  "evaluating_evidence": "Evaluating cross-scope evidence",
+  "report_title": "Jatimetri Report",
+  "prepared_for": "Prepared for",
+  "save_report": "Save Report",
+  "login_save": "Login & Save",
+  "download_pdf": "Download PDF",
+  "dominant_indication": "Dominant Indication",
+  "dominant_desc": "This pattern appears to dominate your energy tendencies and decision-making based on combined evidence.",
+  "potential_map": "Potential Distribution Map",
+  "potential_map_desc": "Visualization of your tendencies across different approaches.",
+  "main_tendencies": "Main Potential Indications (Tendencies)",
+  "main_tendencies_desc": "Strength patterns detected with the most consistent frequency.",
+  "evidence_strength": "Evidence Strength",
+  "disclaimer_title": "⚠ Important Disclaimer",
+  "disclaimer_desc": "These results are an initial reflection tool, not a psychological diagnosis, standardized assessment, or absolute verdict about your personality. This report measures tendencies based on provided responses and is designed as a starting point to further explore your potential.",
+  "fail_pdf": "Failed to generate PDF.",
+  "fail_save": "Failed to save report.",
+  "network_error": "Network error occurred:"
+}
