@@ -28,9 +28,18 @@ app.use('/*', cors({
 
 // Auth Middleware using Clerk Backend API
 app.use('/api/*', async (c, next) => {
+  const publishableKey = c.env.CLERK_PUBLISHABLE_KEY || (c.env as any).VITE_CLERK_PUBLISHABLE_KEY;
+  
+  if (!publishableKey || !c.env.CLERK_SECRET_KEY) {
+    return c.json({ 
+      error: "Configuration Error", 
+      details: "Clerk keys are missing from environment bindings. Please ensure CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY are set." 
+    }, 500);
+  }
+
   const clerkClient = createClerkClient({
     secretKey: c.env.CLERK_SECRET_KEY,
-    publishableKey: c.env.CLERK_PUBLISHABLE_KEY,
+    publishableKey: publishableKey,
   });
 
   const authHeader = c.req.header('Authorization');
@@ -41,7 +50,7 @@ app.use('/api/*', async (c, next) => {
   try {
     const requestState = await clerkClient.authenticateRequest(c.req.raw, {
       secretKey: c.env.CLERK_SECRET_KEY,
-      publishableKey: c.env.CLERK_PUBLISHABLE_KEY,
+      publishableKey: publishableKey,
     });
     
     if (!requestState.isSignedIn) {
