@@ -1,111 +1,90 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tw-animate-css";
+@import "@fontsource-variable/geist";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
+@layer base {
+  .theme {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif
   }
-}
-
-@media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --background: #ffffff;
+    --foreground: #1f2937;
+    --card: #ffffff;
+    --card-foreground: #1f2937;
+    --popover: #ffffff;
+    --popover-foreground: #1f2937;
+    --primary: #245da8;
+    --primary-foreground: #ffffff;
+    --secondary: #f8fbff;
+    --secondary-foreground: #1f2937;
+    --muted: #f8fbff;
+    --muted-foreground: #64748b;
+    --accent: #eaf4ff;
+    --accent-foreground: #245da8;
+    --destructive: #b42318;
+    --destructive-foreground: #ffffff;
+    --border: #d7e3f3;
+    --input: #d7e3f3;
+    --ring: #245da8;
+    --chart-1: #245da8;
+    --chart-2: #3b8f6e;
+    --chart-3: #b7791f;
+    --chart-4: #eaf4ff;
+    --chart-5: #64748b;
+    --radius: 1.5rem;
+    --sidebar: #ffffff;
+    --sidebar-foreground: #1f2937;
+    --sidebar-primary: #245da8;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #eaf4ff;
+    --sidebar-accent-foreground: #245da8;
+    --sidebar-border: #d7e3f3;
+    --sidebar-ring: #245da8;
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  .dark {
+    --background: #0b1220;
+    --foreground: #e5e7eb;
+    --card: #142036;
+    --card-foreground: #e5e7eb;
+    --popover: #142036;
+    --popover-foreground: #e5e7eb;
+    --primary: #93c5fd;
+    --primary-foreground: #0b1220;
+    --secondary: #111a2e;
+    --secondary-foreground: #e5e7eb;
+    --muted: #111a2e;
+    --muted-foreground: #a8b3c7;
+    --accent: #1e3a5f;
+    --accent-foreground: #93c5fd;
+    --destructive: #fca5a5;
+    --destructive-foreground: #0b1220;
+    --border: #2e3b52;
+    --input: #2e3b52;
+    --ring: #93c5fd;
+    --chart-1: #93c5fd;
+    --chart-2: #86efac;
+    --chart-3: #fcd34d;
+    --chart-4: #1e3a5f;
+    --chart-5: #a8b3c7;
+    --sidebar: #0b1220;
+    --sidebar-foreground: #e5e7eb;
+    --sidebar-primary: #93c5fd;
+    --sidebar-primary-foreground: #0b1220;
+    --sidebar-accent: #1e3a5f;
+    --sidebar-accent-foreground: #93c5fd;
+    --sidebar-border: #2e3b52;
+    --sidebar-ring: #93c5fd;
   }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  * {
+    @apply border-border;
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  body {
+    @apply bg-background text-foreground;
   }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  html {
+    @apply font-sans;
+  }
 }

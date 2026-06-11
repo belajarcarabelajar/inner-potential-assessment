@@ -1,0 +1,178 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Loader2, AlertCircle, Settings, Trash2, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+type Report = {
+  id: string;
+  stage: string;
+  created_at: number; // Unix timestamp from D1
+  dominance_pattern: string;
+  radar_data: string | any[];
+  tendencies: string | any[];
+};
+
+export default function Profile() {
+  const { isSignedIn, getToken } = useAuth();
+  const { user } = useUser();
+  const navigate = useNavigate();
+  const [reports, setReports] = useState<Report[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        const token = await getToken();
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
+        const res = await fetch(`${API_URL}/api/reports`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        
+        if (!res.ok) {
+          const errData = await res.text();
+          throw new Error(`Server Error: ${res.status} - ${errData}`);
+        }
+        
+        const data = await res.json();
+        setReports(data.reports || []);
+      } catch (err: any) {
+        console.warn("Backend fetch failed:", err);
+        setError(`Gagal menghubungi server: ${err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReports();
+  }, [isSignedIn, getToken]);
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Hapus riwayat assessment ini? Tindakan tidak bisa dibatalkan.")) return;
+    setDeletingId(id);
+    try {
+      const token = await getToken();
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
+      const res = await fetch(`${API_URL}/api/assessments/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setReports(prev => prev.filter(r => r.id !== id));
+      } else {
+        alert("Gagal menghapus. Silakan coba lagi.");
+      }
+    } catch (e: any) {
+      alert(`Error: ${e.message}`);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  return (
+    <div className="flex-1 bg-background p-6">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <h1 className="text-3xl font-bold text-primary">Profil & Riwayat Laporan</h1>
+
+        {error && (
+          <div className="bg-destructive/10 text-destructive p-4 rounded-lg flex items-center gap-2">
+            <AlertCircle className="w-5 h-5" />
+            <p className="text-sm font-medium">{error}</p>
+          </div>
+        )}
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Settings className="w-5 h-5"/> Pengaturan Personal</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-4 border p-4 rounded-lg">
+              <img src={user?.imageUrl} alt="Profile" className="w-12 h-12 rounded-full" />
+              <div>
+                <p className="font-semibold">{user?.fullName || "Pengguna"}</p>
+                <p className="text-sm text-muted-foreground">{user?.primaryEmailAddress?.emailAddress}</p>
+              </div>
+            </div>
+            
+            <div className="flex justify-between items-center p-4 border rounded-lg border-destructive/20 bg-destructive/5">
+              <div>
+                <h3 className="font-semibold text-destructive">Hapus Akun & Data</h3>
+                <p className="text-sm text-muted-foreground">Semua data riwayat akan dihapus permanen.</p>
+              </div>
+              <Button variant="destructive" size="sm"><Trash2 className="w-4 h-4 mr-2"/> Hapus</Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Riwayat Assessment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="flex justify-center py-8">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : reports.length === 0 ? (
+              <p className="text-muted-foreground text-center py-8">Belum ada riwayat assessment.</p>
+            ) : (
+              <div className="space-y-4">
+                {reports.map((report) => {
+                  const radarData = typeof report.radar_data === 'string' ? JSON.parse(report.radar_data || '[]') : (report.radar_data || []);
+                  const tendencies = typeof report.tendencies === 'string' ? JSON.parse(report.tendencies || '[]') : (report.tendencies || []);
+                  const dateLabel = report.created_at
+                    ? new Date(Number(report.created_at) * 1000).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })
+                    : '-';
+
+                  const handleViewResult = () => {
+                    sessionStorage.setItem('view-historical-report', JSON.stringify({
+                      dominancePattern: report.dominance_pattern,
+                      radarData,
+                      tendencies,
+                      stage: report.stage,
+                      createdAt: report.created_at,
+                    }));
+                    navigate('/dashboard');
+                  };
+
+                  return (
+                    <div key={report.id} className="p-4 border rounded-lg hover:border-primary transition flex justify-between items-center">
+                      <div>
+                        <h3 className="font-semibold capitalize">Kategori: {report.stage}</h3>
+                        <p className="text-sm text-muted-foreground">Pola Dominan: {report.dominance_pattern}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{dateLabel}</p>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <Button onClick={handleViewResult} size="sm" className="gap-1">
+                          <Eye className="w-4 h-4" /> Lihat Hasil
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(report.id)}
+                          variant="outline"
+                          size="sm"
+                          className="gap-1 border-destructive/40 text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                          disabled={deletingId === report.id}
+                        >
+                          {deletingId === report.id
+                            ? <Loader2 className="w-4 h-4 animate-spin" />
+                            : <Trash2 className="w-4 h-4" />
+                          }
+                          Hapus
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
